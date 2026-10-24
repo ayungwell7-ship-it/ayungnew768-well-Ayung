@@ -1,0 +1,14 @@
+{
+  "admin": {
+    "uid": "admin_syahrul_main",
+    "accountId": "SG-SAHCAZ",
+    "phone": "081234567890",
+    "phoneVerified": true,
+    "createdAt": "15 Oktober 2026",
+    "passwordSalt": "eac3e6d06b9337ab1957535a53bbfd53",
+    "passwordHash": "cd0305656e565f1e9771a124f3a0defccb7a093f7310705f02225183b0e8b854bf1199de784388803cf2b71e931d29c0e064cb575c093fef53564cb2aa868934",
+    "firebaseEmail": "ayungwell7@gmail.com",
+    "displayName": "Syahrul Gunawan"
+  },
+  "passkeys": []
+}

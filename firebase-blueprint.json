@@ -1,0 +1,155 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Public gaming profile dossier and configuration for Syahrul Gunawan",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "gamerTag": { "type": "string", "maxLength": 50 },
+        "tagline": { "type": "string", "maxLength": 200 },
+        "bio": { "type": "string", "maxLength": 1000 },
+        "avatarUrl": { "type": "string", "maxLength": 500 },
+        "avatarFrame": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["Online", "In-Game", "Streaming", "AFK"] },
+        "currentPlaying": { "type": "string", "maxLength": 100 },
+        "fullName": { "type": "string", "maxLength": 100 },
+        "nickname": { "type": "string", "maxLength": 50 },
+        "domicile": { "type": "string", "maxLength": 100 },
+        "emailContact": { "type": "string", "maxLength": 100 },
+        "aboutMe": { "type": "string", "maxLength": 2000 },
+        "accentColor": { "type": "string", "enum": ["cyan", "purple", "blue", "emerald", "rose"] }
+      },
+      "required": ["name", "gamerTag"]
+    },
+    "Achievement": {
+      "title": "Achievement",
+      "description": "Tournament wins, badges, and competitive achievements",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "gameOrEvent": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "date": { "type": "string", "maxLength": 50 },
+        "badge": { "type": "string", "maxLength": 50 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "order": { "type": "number" },
+        "highlighted": { "type": "boolean" }
+      },
+      "required": ["title", "gameOrEvent"]
+    },
+    "Hobby": {
+      "title": "Hobby",
+      "description": "Gaming hobbies, tech passions, and activities",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 500 },
+        "icon": { "type": "string", "maxLength": 50 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "order": { "type": "number" }
+      },
+      "required": ["name"]
+    },
+    "MusicTrack": {
+      "title": "MusicTrack",
+      "description": "Gaming and synthwave audio tracks for the player",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "artist": { "type": "string", "maxLength": 100 },
+        "audioUrl": { "type": "string", "maxLength": 500 },
+        "coverUrl": { "type": "string", "maxLength": 500 },
+        "duration": { "type": "string", "maxLength": 20 },
+        "isPublic": { "type": "boolean" },
+        "order": { "type": "number" }
+      },
+      "required": ["title", "audioUrl"]
+    },
+    "PrivateLink": {
+      "title": "PrivateLink",
+      "description": "Strictly confidential bookmarks and service accounts",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "url": { "type": "string", "maxLength": 500 },
+        "description": { "type": "string", "maxLength": 500 },
+        "category": { "type": "string", "enum": ["Web", "Sosmed", "Aplikasi", "Game"] },
+        "icon": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["name", "url", "category"]
+    },
+    "PrivateNote": {
+      "title": "PrivateNote",
+      "description": "Catatan Kata-Kata, ide, kutipan, dan inspirasi",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "content": { "type": "string", "maxLength": 20000 },
+        "category": { "type": "string", "enum": ["Web", "Sosmed", "Aplikasi", "Game"] }
+      },
+      "required": ["title", "category"]
+    },
+    "SecretAccountNote": {
+      "title": "SecretAccountNote",
+      "description": "Catatan Rahasia akun MLBB, sosmed, apps dengan enkripsi AES-GCM",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string", "enum": ["Web", "Sosmed", "Aplikasi", "Game"] },
+        "identityType": { "type": "string", "enum": ["Gmail", "Username"] },
+        "identityValue": { "type": "string", "maxLength": 200 },
+        "credentialType": { "type": "string", "enum": ["Password", "PIN"] },
+        "credentialValue": { "type": "string", "maxLength": 1000 },
+        "iv": { "type": "string", "maxLength": 64 },
+        "description": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["title", "category", "identityType", "identityValue", "credentialType", "credentialValue"]
+    },
+    "VaultSettings": {
+      "title": "VaultSettings",
+      "description": "PBKDF2 SHA-256 hash dan salt untuk proteksi Catatan Rahasia",
+      "type": "object",
+      "properties": {
+        "passwordHash": { "type": "string", "maxLength": 256 },
+        "salt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["passwordHash", "salt"]
+    }
+  },
+  "firestore": {
+    "/profiles/{profileId}": {
+      "schema": "UserProfile",
+      "description": "Public gaming dossier for Syahrul Gunawan"
+    },
+    "/achievements/{achievementId}": {
+      "schema": "Achievement",
+      "description": "Hall of fame tournaments and ranks"
+    },
+    "/hobbies/{hobbyId}": {
+      "schema": "Hobby",
+      "description": "Gaming activities and custom hardware"
+    },
+    "/music/{trackId}": {
+      "schema": "MusicTrack",
+      "description": "Cyberpunk music playlist"
+    },
+    "/privateLinks/{linkId}": {
+      "schema": "PrivateLink",
+      "description": "Admin-only vault for website links"
+    },
+    "/privateNotes/{noteId}": {
+      "schema": "PrivateNote",
+      "description": "Catatan Kata-Kata (Option A)"
+    },
+    "/secretVaultNotes/{secretId}": {
+      "schema": "SecretAccountNote",
+      "description": "Catatan Rahasia Akun & Kredensial (Option B)"
+    },
+    "/vaultSettings/{settingId}": {
+      "schema": "VaultSettings",
+      "description": "Pengaturan keamanan password Catatan Rahasia"
+    }
+  }
+}

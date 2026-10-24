@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny for unmatched collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection testing endpoint
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // 1. PUBLIC GAMING PROFILE
+    match /profiles/{profileId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isValidId(profileId);
+    }
+
+    // 2. ACHIEVEMENTS
+    match /achievements/{achievementId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isValidId(achievementId);
+    }
+
+    // 3. HOBBIES
+    match /hobbies/{hobbyId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isValidId(hobbyId);
+    }
+
+    // 4. MUSIC PLAYLIST
+    match /music/{trackId} {
+      allow read: if resource.data.isPublic == true || isSignedIn();
+      allow write: if isSignedIn() && isValidId(trackId);
+    }
+
+    // 5. PRIVATE WEBSITE COLLECTION (STRICTLY PRIVATE)
+    match /privateLinks/{linkId} {
+      allow read, write: if isSignedIn() && isValidId(linkId);
+    }
+
+    // 6. CATATAN KATA-KATA (PILIHAN A - STRICTLY PRIVATE)
+    match /privateNotes/{noteId} {
+      allow read, write: if isSignedIn() && isValidId(noteId);
+    }
+
+    // 7. CATATAN RAHASIA AKUN & KREDENSIAL (PILIHAN B - STRICTLY PRIVATE)
+    // Only authenticated admin can access!
+    match /secretVaultNotes/{secretId} {
+      allow read, write: if isSignedIn() && isValidId(secretId);
+    }
+
+    // 8. CLOUDINARY CONFIG (PUBLIC UPLOAD PRESET)
+    match /vaultSettings/cloudinary {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // 9. VAULT SECURITY SETTINGS (PASSWORD HASH & SALT - STRICTLY PRIVATE)
+    match /vaultSettings/{settingId} {
+      allow read, write: if isSignedIn() && isValidId(settingId);
+    }
+  }
+}

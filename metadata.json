@@ -1,0 +1,6 @@
+{
+  "name": "SYAHRUL GUNAWAN | GAMING PROFILE",
+  "description": "Futuristic gaming portfolio and personal profile for Syahrul Gunawan with real-time Firebase sync, admin control panel, audio player, achievements, and private vaults.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
